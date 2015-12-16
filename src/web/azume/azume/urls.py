@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from jyms.views import home_page
+from jyms.views import home_page, add_jym
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
-    url(r"^$", home_page)
+    url(r"^$", home_page),
+    url(r"^jyms/add$", add_jym)
 ]

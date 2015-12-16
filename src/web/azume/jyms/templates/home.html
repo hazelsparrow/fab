@@ -8,6 +8,15 @@
         async defer></script>
 </head>
 <script>
+    $.ajaxSetup({
+         beforeSend: function(xhr, settings) {
+             if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                 // Only send the token to relative URLs i.e. locally.
+                 xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+             }
+         }
+    });
+
     var map;
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
@@ -27,6 +36,20 @@
           map.setCenter(pos);
         });
       }
+
+      map.addListener("click", function(e) {
+        $.ajax({
+            url: "/jyms/add",
+            type: "POST",
+            data: {
+                lat: e.latLng.lat(),
+                lng: e.latLng.lng()
+            },
+            success: function() {
+                console.log("Successfully posted " + e.latLng);
+            }
+        });
+      });
     };
 
 
