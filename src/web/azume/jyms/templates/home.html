@@ -37,6 +37,21 @@
         });
       }
 
+      // Adds a marker to the map.
+        function addMarker(location, name) {
+          // Add the marker at the clicked location, and add the next-available label
+          // from the array of alphabetical characters.
+          var marker = new google.maps.Marker({
+            position: location,
+            label: name,
+            map: map
+          });
+          };
+
+      {% for j in jyms %}
+        addMarker({lat: {{ j.lat }}, lng: {{ j.lng }}}, "{{ j.name }}");
+      {% endfor %}
+
       map.addListener("click", function(e) {
         $.ajax({
             url: "/jyms/add",
